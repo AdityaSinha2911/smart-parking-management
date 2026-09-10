@@ -1,4 +1,8 @@
 from fastapi import FastAPI
+from sqlalchemy import text
+
+from app.database.connection import engine
+
 
 app = FastAPI(
     title="Smart Parking Management System",
@@ -17,4 +21,15 @@ def root():
 def health():
     return {
         "status": "healthy"
+    }
+
+# Check the health of the database
+@app.get("/health/db")
+def database_health():
+    with engine.connect() as connection:
+        result = connection.execute(text("SELECT 1"))
+
+    return {
+        "database": "connected",
+        "result": result.scalar()
     }
