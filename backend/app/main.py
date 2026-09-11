@@ -1,7 +1,12 @@
 from fastapi import FastAPI
 from sqlalchemy import text
 
+from app.database.base import Base
 from app.database.connection import engine
+from app.models import User, Vehicle, ParkingSlot, Booking
+
+
+Base.metadata.create_all(bind=engine)
 
 
 app = FastAPI(
