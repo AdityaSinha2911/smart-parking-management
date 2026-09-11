@@ -5,6 +5,7 @@ from app.database.base import Base
 from app.database.connection import engine
 from app.models import User, Vehicle, ParkingSlot, Booking
 from app.routes.users import router as users_router
+from app.routes.vehicles import router as vehicles_router
 
 
 Base.metadata.create_all(bind=engine)
@@ -18,6 +19,8 @@ app = FastAPI(
 # Include the users router to handle user-related endpoints
 app.include_router(users_router)
 
+# Include the vehicles router to handle vehicle-related endpoints
+app.include_router(vehicles_router)
 
 @app.get("/")
 def root():
