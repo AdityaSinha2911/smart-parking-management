@@ -1,0 +1,1 @@
+# Initialize the schemas for the application
