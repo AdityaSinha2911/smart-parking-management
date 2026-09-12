@@ -3,7 +3,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.base import Base
 
-
+# Vehicle model representing a vehicle in the system, with attributes for vehicle number, type, and relationships to users and bookings.
 class Vehicle(Base):
     __tablename__ = "vehicles"
 
