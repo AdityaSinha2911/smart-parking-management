@@ -16,6 +16,43 @@ services:
       - database
 
 
+
+  user-service:
+    build:
+      context: ./services/user-service
+
+    container_name: user_service
+
+    ports:
+      - "8001:8001"
+
+    depends_on:
+      - database
+
+
+  parking-service:
+    build:
+      context: ./services/parking-service
+
+    container_name: parking_service
+
+    ports:
+      - "8002:8002"
+
+    depends_on:
+      - database
+
+  booking-service:
+    build:
+      context: ./services/booking-service
+
+    container_name: booking_service
+
+    ports:
+      - "8003:8003"
+
+    depends_on:
+      - database
   database:
     image: postgres:16
 
@@ -32,6 +69,20 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  api-gateway:
+    build:
+      context: ./services/api-gateway
+
+    container_name: api_gateway
+
+    ports:
+      - "8004:8004"
+
+    depends_on:
+      - backend
+      - user-service
+      - parking-service
+      - booking-service
 
 volumes:
   postgres_data:
