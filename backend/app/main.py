@@ -7,6 +7,7 @@ from app.models import User, Vehicle, ParkingSlot, Booking
 from app.routes.users import router as users_router
 from app.routes.vehicles import router as vehicles_router
 from app.routes.parking_slots import router as parking_slots_router
+from app.routes.bookings import router as bookings_router
 
 
 Base.metadata.create_all(bind=engine)
@@ -25,6 +26,8 @@ app.include_router(vehicles_router)
 
 # Include the parking slots router to handle parking slot-related endpoints
 app.include_router(parking_slots_router)
+
+app.include_router(bookings_router)
 
 @app.get("/")
 def root():
