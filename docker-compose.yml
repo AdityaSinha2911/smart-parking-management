@@ -1,7 +1,25 @@
 services:
 
+  backend:
+    build:
+      context: ./backend
+
+    container_name: parking_backend
+
+    ports:
+      - "8000:8000"
+
+    environment:
+      DATABASE_URL: postgresql+psycopg2://postgres:password@database:5432/parking
+
+    depends_on:
+      - database
+
+
   database:
     image: postgres:16
+
+    container_name: parking_database
 
     environment:
       POSTGRES_USER: postgres
