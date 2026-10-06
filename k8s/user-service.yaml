@@ -24,6 +24,19 @@ spec:
 
           ports:
             - containerPort: 8001
+          
+          resources:
+            requests:
+              cpu: "100m"
+            limits:
+              cpu: "500m"
+
+          envFrom:
+            - configMapRef:
+                name: parking-config
+
+            - secretRef:
+                name: parking-secret
 
 ---
 apiVersion: v1
