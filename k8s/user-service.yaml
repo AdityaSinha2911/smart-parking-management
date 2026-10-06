@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+  namespace: parking
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: user-service
+
+  template:
+    metadata:
+      labels:
+        app: user-service
+
+    spec:
+      containers:
+        - name: user-service
+          image: smartparkingmanagement-user-service:latest
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - containerPort: 8001
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+  namespace: parking
+
+spec:
+  selector:
+    app: user-service
+
+  ports:
+    - port: 8001
+      targetPort: 8001
+
+  type: ClusterIP
