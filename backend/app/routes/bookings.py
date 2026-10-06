@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.database.connection import get_db
+from app.dependencies import get_current_user
 
 from app.schemas.booking import (
     BookingCreate,
@@ -70,6 +71,22 @@ def create_new_booking(
         )
 
     return booking
+
+
+@router.get(
+    "/me",
+    response_model=list[BookingResponse]
+)
+def read_current_user_bookings(
+    user_id: int = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+
+    return [
+        booking
+        for booking in get_bookings(db)
+        if booking.user_id == user_id
+    ]
 
 
 @router.get(

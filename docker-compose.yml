@@ -76,7 +76,7 @@ services:
     container_name: api_gateway
 
     ports:
-      - "8004:8004"
+      - "8004:9000"
 
     depends_on:
       - backend

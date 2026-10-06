@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 
 from app.database.base import Base
@@ -17,6 +18,14 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(
     title="Smart Parking Management System",
     version="1.0.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Include the users router to handle user-related endpoints
