@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smart Parking</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- =====================================================
+       LOGIN SCREEN
+  ====================================================== -->
+  <div id="login-screen" class="login-wrap">
+
+    <form id="login-form" class="card login-card">
+
+      <h1>Smart Parking</h1>
+      <p class="muted">Cloud-Native Parking Management System</p>
+
+      <label for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        required
+        autocomplete="username"
+        placeholder="Enter your email"
+      >
+
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        required
+        autocomplete="current-password"
+        placeholder="Enter your password"
+      >
+
+      <button id="login-btn" type="submit" class="btn">
+        Login
+      </button>
+
+      <p id="login-error" class="error" hidden></p>
+
+      <!-- Register option -->
+      <div class="auth-switch">
+        <span class="muted">Don't have an account?</span>
+        <button
+          type="button"
+          id="show-register-btn"
+          class="link-btn"
+        >
+          Create Account
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+
+  <!-- =====================================================
+       REGISTER SCREEN
+  ====================================================== -->
+  <div id="register-screen" class="login-wrap" hidden>
+
+    <form id="register-form" class="card login-card">
+
+      <h1>Create Account</h1>
+
+      <p class="muted">
+        Register for Smart Parking
+      </p>
+
+      <label for="register-name">Name</label>
+
+      <input
+        id="register-name"
+        type="text"
+        required
+        autocomplete="name"
+        placeholder="Enter your name"
+      >
+
+      <label for="register-email">Email</label>
+
+      <input
+        id="register-email"
+        type="email"
+        required
+        autocomplete="email"
+        placeholder="Enter your email"
+      >
+
+      <label for="register-password">Password</label>
+
+      <input
+        id="register-password"
+        type="password"
+        required
+        autocomplete="new-password"
+        placeholder="Create a password"
+      >
+
+      <label for="register-confirm-password">
+        Confirm Password
+      </label>
+
+      <input
+        id="register-confirm-password"
+        type="password"
+        required
+        autocomplete="new-password"
+        placeholder="Confirm your password"
+      >
+
+      <button
+        id="register-btn"
+        type="submit"
+        class="btn"
+      >
+        Create Account
+      </button>
+
+      <p id="register-message" class="error" hidden></p>
+
+      <div class="auth-switch">
+        <span class="muted">Already have an account?</span>
+
+        <button
+          type="button"
+          id="show-login-btn"
+          class="link-btn"
+        >
+          Login
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+
+  <!-- =====================================================
+       MAIN APPLICATION
+  ====================================================== -->
+  <div id="app" class="app" hidden>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+      <h2>Smart Parking</h2>
+
+      <nav>
+
+        <button
+          class="nav-btn active"
+          data-section="dashboard"
+        >
+          Dashboard
+        </button>
+
+        <button
+          class="nav-btn"
+          data-section="parking"
+        >
+          Parking
+        </button>
+
+        <button
+          class="nav-btn"
+          data-section="bookings"
+        >
+          Bookings
+        </button>
+
+        <button
+          class="nav-btn"
+          data-section="services"
+        >
+          Services
+        </button>
+
+        <button
+          id="logout-btn"
+          class="nav-btn logout"
+        >
+          Logout
+        </button>
+
+      </nav>
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="content">
+
+      <!-- =================================================
+           DASHBOARD
+      ================================================== -->
+
+      <section id="dashboard" class="section">
+
+        <h1>Dashboard</h1>
+
+        <p id="welcome" class="muted"></p>
+
+        <h3>
+          Service Status
+          <span class="tag real">
+            Real backend data
+          </span>
+        </h3>
+
+        <div class="grid">
+
+          <div class="card">
+            <h4>User Service</h4>
+            <p
+              class="status"
+              data-status="users"
+            >
+              Checking...
+            </p>
+          </div>
+
+          <div class="card">
+            <h4>Parking Service</h4>
+            <p
+              class="status"
+              data-status="parking"
+            >
+              Checking...
+            </p>
+          </div>
+
+          <div class="card">
+            <h4>Booking Service</h4>
+            <p
+              class="status"
+              data-status="bookings"
+            >
+              Checking...
+            </p>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           PARKING
+      ================================================== -->
+
+      <section
+        id="parking"
+        class="section"
+        hidden
+      >
+
+        <h1>Parking</h1>
+
+        <div class="card">
+
+          <h4>
+            Parking Service Status
+
+            <span class="tag real">
+              Real backend data
+            </span>
+
+          </h4>
+
+          <p
+            class="status"
+            data-status="parking"
+          >
+            Checking...
+          </p>
+
+        </div>
+
+
+        <div class="section-heading">
+          <h3>
+            Parking Slots
+
+            <span class="tag real">
+              Real backend data
+            </span>
+          </h3>
+
+          <button
+            id="refresh-parking-btn"
+            class="btn"
+            type="button"
+          >
+            Refresh Slots
+          </button>
+        </div>
+
+        <div
+          id="slots"
+          class="slots"
+        ></div>
+
+        <p id="parking-message" class="muted" hidden></p>
+
+        <p class="legend">
+
+          <span class="dot available"></span>
+          Available
+
+          <span class="dot occupied"></span>
+          Occupied
+
+        </p>
+
+        <div id="booking-card" class="card booking-card" hidden>
+          <h3>Book <span id="selected-slot-label"></span></h3>
+
+          <form id="booking-form">
+            <label for="booking-vehicle">Vehicle</label>
+            <select id="booking-vehicle"></select>
+
+            <div id="new-vehicle-fields" hidden>
+              <label for="vehicle-number">Vehicle number</label>
+              <input id="vehicle-number" type="text" placeholder="e.g. ABC-1234">
+
+              <label for="vehicle-type">Vehicle type</label>
+              <input id="vehicle-type" type="text" placeholder="e.g. Car">
+            </div>
+
+            <label for="booking-start">Start time</label>
+            <input id="booking-start" type="datetime-local" required>
+
+            <label for="booking-end">End time</label>
+            <input id="booking-end" type="datetime-local" required>
+
+            <button id="booking-submit-btn" class="btn" type="submit">
+              Confirm Booking
+            </button>
+            <button id="booking-cancel-btn" class="link-btn" type="button">
+              Close
+            </button>
+            <p id="booking-message" class="error" hidden></p>
+          </form>
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           BOOKINGS
+      ================================================== -->
+
+      <section
+        id="bookings"
+        class="section"
+        hidden
+      >
+
+        <h1>My Bookings</h1>
+
+        <div class="card">
+
+          <h4>
+            Booking Service Status
+
+            <span class="tag real">
+              Real backend data
+            </span>
+          </h4>
+
+          <p
+            class="status"
+            data-status="bookings"
+          >
+            Checking...
+          </p>
+
+        </div>
+
+        <div id="bookings-list" class="booking-list"></div>
+        <p id="bookings-message" class="muted" hidden></p>
+
+      </section>
+
+
+      <!-- =================================================
+           SERVICES
+      ================================================== -->
+
+      <section
+        id="services"
+        class="section"
+        hidden
+      >
+
+        <h1>Services</h1>
+
+        <button
+          id="refresh-btn"
+          class="btn"
+        >
+          Refresh Status
+        </button>
+
+        <div class="grid">
+
+          <div class="card">
+            <h4>API Gateway</h4>
+
+            <p
+              class="status"
+              data-status="health"
+            >
+              Checking...
+            </p>
+          </div>
+
+
+          <div class="card">
+            <h4>User Service</h4>
+
+            <p
+              class="status"
+              data-status="users"
+            >
+              Checking...
+            </p>
+          </div>
+
+
+          <div class="card">
+            <h4>Parking Service</h4>
+
+            <p
+              class="status"
+              data-status="parking"
+            >
+              Checking...
+            </p>
+          </div>
+
+
+          <div class="card">
+            <h4>Booking Service</h4>
+
+            <p
+              class="status"
+              data-status="bookings"
+            >
+              Checking...
+            </p>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <!-- JavaScript -->
+  <script src="script.js"></script>
+
+</body>
+</html>
