@@ -1,11 +1,19 @@
-from pwdlib import PasswordHash
-import jwt
+import os
 from datetime import datetime, timedelta, timezone
+
+import jwt
+from pwdlib import PasswordHash
 
 
 password_hash = PasswordHash.recommended()
 
-SECRET_KEY = "smart-parking-secret-key"
+# Never commit a real signing key. Configure JWT_SECRET in the environment.
+SECRET_KEY = os.getenv("JWT_SECRET")
+if not SECRET_KEY:
+    raise RuntimeError(
+        "JWT_SECRET must be set in the environment before starting the backend."
+    )
+
 ALGORITHM = "HS256"
 
 
@@ -19,28 +27,15 @@ def verify_password(password: str, hashed_password: str) -> bool:
 
 def create_access_token(user_id: int):
     expire = datetime.now(timezone.utc) + timedelta(hours=2)
-
     payload = {
         "user_id": user_id,
-        "exp": expire
+        "exp": expire,
     }
-
-    return jwt.encode(
-        payload,
-        SECRET_KEY,
-        algorithm=ALGORITHM
-    )
+    return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 
 
 def verify_token(token: str):
     try:
-        payload = jwt.decode(
-            token,
-            SECRET_KEY,
-            algorithms=[ALGORITHM]
-        )
-
-        return payload
-
+        return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
     except jwt.InvalidTokenError:
         return None
