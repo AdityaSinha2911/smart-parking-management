@@ -1414,3 +1414,17 @@ That is the core idea behind this **Cloud-Native Smart Parking Management System
 Cloud-Native Smart Parking Management System
 
 Academic project focused on cloud-native application development, containerization, microservices, Kubernetes, CI/CD and scalable system design.
+
+---
+
+## Security and local configuration notes
+
+- Copy `.env.example` to `.env` and replace the example values before starting Docker Compose. Never commit `.env` or real credentials.
+- The backend requires `JWT_SECRET` to be set and intentionally fails to start if it is missing.
+- Public registration always creates a standard `user` role. The public request cannot assign a privileged role.
+- User, vehicle, parking-slot and booking API endpoints require a bearer token, except public account registration and login.
+- The Kubernetes Secret manifest contains placeholders only. Replace them with environment-specific Secret values before deployment; do not use the placeholders in a real environment.
+- Authentication is not the same as authorization: before production use, add and test resource ownership checks for every read/update/delete endpoint, administrative role checks, booking concurrency controls, and database migrations.
+- The CI workflow compiles Python code in the backend and microservices. It is not a substitute for automated unit, integration, security, or end-to-end tests.
+- The Kubernetes manifests currently cover the user, parking and booking microservices. The main backend, API gateway and PostgreSQL still need Kubernetes workloads and a deployment-specific image strategy for a complete Kubernetes deployment.
+
