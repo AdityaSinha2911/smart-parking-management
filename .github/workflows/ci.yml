@@ -2,14 +2,13 @@ name: Smart Parking CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, "fix/**"]
   pull_request:
     branches: [main]
 
 jobs:
-  build:
+  compile:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -20,9 +19,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install backend dependencies
-        run: |
-          pip install -r backend/requirements.txt
+        run: pip install -r backend/requirements.txt
 
-      - name: Check backend
-        run: |
-          python -m compileall backend/app
+      - name: Compile all Python application code
+        run: python -m compileall -q backend/app services
