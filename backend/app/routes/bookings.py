@@ -10,7 +10,9 @@ router = APIRouter(prefix="/bookings", tags=["Bookings"])
 
 
 @router.post("/", response_model=BookingResponse, status_code=status.HTTP_201_CREATED, dependencies=[Depends(get_current_user)])
-def create_new_booking(booking_data: BookingCreate, db: Session = Depends(get_db)):
+def create_new_booking(booking_data: BookingCreate, current_user_id: int = Depends(get_current_user), db: Session = Depends(get_db)):
+    if booking_data.user_id != current_user_id:
+        raise HTTPException(status_code=403, detail="You can only create bookings for your own account")
     booking, error = create_booking(db, booking_data)
     errors = {
         "user_not_found": (404, "User not found"),
